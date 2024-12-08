@@ -1,25 +1,32 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const TodoModel = require('./Models/Todo')
-
+const TodoModel = require('./Models/Todo');
+const { dbConnection } = require('./db/connection.db');
+const dotenv = require('dotenv')
 const app=express();
+
+dotenv.config({
+    path:"./.env"
+})
+
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/todo');
+// mongoose.connect('mongodb://127.0.0.1:27017/todo');
+dbConnection()
 
 
-const connection=mongoose.connection;
+// const connection=mongoose.connection;
 
-connection.on('connected',()=>{
-    console.log('MongoDB Connected Successfully');
-})
+// connection.on('connected',()=>{
+//     console.log('MongoDB Connected Successfully');
+// })
 
-connection.on('error',(err)=>{
-    console.log('MongoDb Connection Failed');
-    console.log(err);
-})
+// connection.on('error',(err)=>{
+//     console.log('MongoDb Connection Failed');
+//     console.log(err);
+// })
 
 app.post('/add', (req, res) => {
     const task = req.body.task;
